@@ -18,3 +18,14 @@ const rootElement = ReactDOM.createRoot(container);
 
 // Tells React to render your app in the root DOM element
 rootElement.render(<MyFlixApplication />);
+
+app.get("/movies", function (req, res) {
+  Movies.find()
+    .then(function (movies) {
+      res.status(201).json(movies);
+    })
+    .catch(function (error) {
+      console.error(error);
+      res.status(500).send("Error: " + error);
+    });
+});
