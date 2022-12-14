@@ -1,0 +1,24 @@
+{
+  "name": "49176",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test-node.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.2.0",
+    "json-server": "^0.17.1",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
+    "package-json": "^8.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.0-rc.0"
+  }
+}
