@@ -3,5 +3,8 @@
     "axios": "^1.2.1",
     "parcel": "^2.8.2",
     "sass": "^1.57.0"
+  },
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.2"
   }
 }
