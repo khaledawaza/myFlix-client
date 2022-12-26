@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-
 
 export function LoginView(props) {
   const [ username, setUsername ] = useState('');

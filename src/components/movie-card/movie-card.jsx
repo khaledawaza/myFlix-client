@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 
-export function RegistrationView(props)
-
 export class MovieCard extends React.Component {
   render() {
     const { movie, onMovieClick } = this.props;
