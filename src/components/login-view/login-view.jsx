@@ -1,38 +1,90 @@
-import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import { useState, useEffect } from "react";
+import { BookCard } from "../movie-card/movie-card";
+import { BookView } from "../movie-view/movie-view";
+import { LoginView } from "../login-view/login-view";
 
-export function LoginView(props) {
-  const [ username, setUsername ] = useState('');
-  const [ password, setPassword ] = useState('');
+export const MainView = () => {
+  const [books, setBooks] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [user, setUser] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(username, password);
-    /* Send a request to the server for authentication */
-    /* then call props.onLoggedIn(username) */
-    props.onLoggedIn(username);
-  };
-  const handleRegisterClick = (e) => {
-    e.preventDefault();
-    props.toRegister();
-  };
+  useEffect(() => {
+    fetch("https://openlibrary.org/search.json?q=star+wars")
+      .then((response) => response.json())
+      .then((data) => {
+        const booksFromApi = data.docs.map((doc) => {
+          return {
+            id: doc.key,
+            title: doc.title,
+            image: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
+            author: doc.author_name?.[0]
+          };
+        });
+
+        setBooks(booksFromApi);
+      });
+  }, []);
+
+
+
+  if (!user) {
+    return <LoginView />;
+  }
+
+  if (selectedBook) {
+    return (
+      <BookView book={selectedBook} onBackClick={() => setSelectedBook(null)} />
+    );
+  }
+
+  if (books.length === 0) {
+    return <div>The list is empty!</div>;
+  }
 
   return (
-    <form>
-      <label>
-        Username:
-        <input type="text" value={username} onChange={e => setUsername(e.target.value)} />
-      </label>
-      <label>
-        Password:
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
-      </label>
-      <button type="submit" onClick={handleSubmit}>Log In</button>
-      <button type="button">Register</button>
-    </form>
+    <div>
+      {books.map((book) => (
+        <BookCard
+          key={book.id}
+          book={book}
+          onBookClick={(newSelectedBook) => {
+            setSelectedBook(newSelectedBook);
+          }}
+        />
+      ))}
+    </div>
   );
-}
-
-LoginView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired,
 };
+const data = {
+  Username: username,
+  Password: password
+};
+
+fetch("YOUR_API_URL/login", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify(data)
+})
+  .then((response) => response.json())
+  .then((data) => {
+    console.log("Login response: ", data);
+    if (data.user) {
+      onLoggedIn(data.user, data.token);
+    } else {
+      alert("No such user");
+    }
+  })
+  .catch((e) => {
+    alert("Something went wrong");
+  });
+
+  
+  if (data.user) {
+    localStorage.setItem("user", JSON.stringify(data.user));
+    localStorage.setItem("token", data.token);
+    onLoggedIn(data.user, data.token);
+  } else {
+    alert("No such user");
+  }

@@ -81,3 +81,17 @@ render() {
 }
 
 }
+<button onClick={() => { setUser(null); }}>Logout</button>
+
+const [token, setToken] = useState(null);
+
+if (!user) {
+  return (
+    <LoginView
+      onLoggedIn={(user, token) => {
+        setUser(user);
+        setToken(token);
+      }}
+    />
+  );
+}
