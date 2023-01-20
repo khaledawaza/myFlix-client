@@ -1,97 +1,60 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
 
-import { RegistrationView } from '../registration-view/registration-view';
-import { LoginView } from '../login-view/login-view';
-import { MovieCard } from '../movie-card/movie-card';
+import { useState, useEffect } from "react";
+import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
+import { LoginView } from "../login-view/login-view";
 
-export class MainView extends React.Component {
+export const MainView = () => {
+  const [books, setBooks] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [user, setUser] = useState(null);
 
-  constructor() {
-    super();
-    this.state = {
-      movies: [],
-      selectedMovie: null,
-      user: null,
-      registered: true,
-    }
-  }
-  componentDidMount(){
-    axios.get('https://myflix-firstmovieapp.herokuapp.com/movies')
-      .then(response => {
-        this.setState({
-          movies: response.data
+  useEffect(() => {
+    fetch("https://openlibrary.org/search.json?q=star+wars")
+      .then((response) => response.json())
+      .then((data) => {
+        const booksFromApi = data.docs.map((doc) => {
+          return {
+            id: doc.key,
+            title: doc.title,
+            image: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
+            author: doc.author_name?.[0]
+          };
         });
-      })
-      .catch(error => {
-        console.log(error);
+
+        setBooks(booksFromApi);
       });
-  }
-/*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
-
-setSelectedMovie(movie) {
-  this.setState({
-    selectedMovie: movie
-  });
-}
-
-/* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
-
-onLoggedIn(user) {
-  this.setState({
-    user
-  });
-}
-
-toRegister(registered) {
-  this.setState({
-    registered,
-  });
-}
-
-render() {
-  const { movies, selectedMovie, user, registered } = this.state;
-
-  if (!registered) return <RegistrationView />;
-
-  /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
-  if (!user)
-      return (
-        <LoginView
-          onLoggedIn={(user) => this.onLoggedIn(user)}
-          toRegister={(registered) => this.toRegister(registered)}
-        />
-      );
-
-  // Before the movies have been loaded
-  if (movies.length === 0) return <div className="main-view" />;
+  }, []);
 
   return (
-    <div className="main-view">
-      {/*If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all *movies will be returned*/}
-      {selectedMovie
-        ? <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
-        : movies.map(movie => (
-          <MovieCard key={movie._id} movie={movie} onMovieClick={(newSelectedMovie) => { this.setSelectedMovie(newSelectedMovie) }}/>
-       ))
-      }
-    </div>
+      <Row> 
+        {!user ? (
+          <>
+            <LoginView onLoggedIn={(user) => setUser(user)} />
+            or
+            <SignupView />
+          </>
+        ) : selectedBook ? (
+          <BookView 
+            book={selectedBook} 
+            onBackClick={() => setSelectedBook(null)} 
+          />
+        ) : books.length === 0 ? (
+          <div>The list is empty!</div>
+        ) : (
+          <>
+            {books.map((book) => (
+              <BookCard
+                key={book.id}
+                book={book}
+                onBookClick={(newSelectedBook) => {
+                  setSelectedBook(newSelectedBook);
+                }}
+              />
+            ))}
+          </>
+        )}
+      </Row>
   );
-}
-
-}
-<button onClick={() => { setUser(null); }}>Logout</button>
-
-const [token, setToken] = useState(null);
-
-if (!user) {
-  return (
-    <LoginView
-      onLoggedIn={(user, token) => {
-        setUser(user);
-        setToken(token);
-      }}
-    />
-  );
-}
+};
