@@ -4,7 +4,7 @@ import { BookCard } from "../book-card/book-card";
 import { MainView } from "../main-view/main-view";
 import { LoginView } from "../login-view/login-view";
 
-export const MainView = () => {
+export const BookView = () => {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [user, setUser] = useState(null);

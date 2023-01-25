@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import axios from 'axios';
 import { Button, Card } from "react-bootstrap";
 
-import "./book-card.scss";
+import "./book-card.css";
 
 export const BookCard = ({ book, onBookClick }) => {
  return (
@@ -19,11 +20,11 @@ export const BookCard = ({ book, onBookClick }) => {
   );
 };
 
-BookCard.prototypes ={
+BookCard.propTypes = {
   book: PropTypes.shape({
-    title:PropTypes.string.isRequired,
-    image:PropTypes.string.isRequired,
-    author:PropTypes.string
-   }).isRequired,
-   onBookClick:PropTypes.func.isRequired
+    title: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    author: PropTypes.string
+  }).isRequired,
+  onBookClick: PropTypes.func.isRequired
 };

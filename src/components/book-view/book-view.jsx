@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Col from 'react-bootstrap/Col';
 
-export class MovieView extends React.Component {
+export class BookView extends React.Component {
 
   render() {
     const { movie, onBackClick } = this.props;
@@ -26,7 +26,7 @@ export class MovieView extends React.Component {
     );
   }
 }
-MovieView.propTypes = {
+BookView.propTypes = {
   movie: PropTypes.shape({
     Title: PropTypes.string.isRequired,
     Description: PropTypes.string.isRequired,
