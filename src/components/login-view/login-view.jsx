@@ -43,17 +43,19 @@ export const MainView = () => {
   }
 
   return (
-    <div>
-      {books.map((book) => (
+    
+    <>
+    {books.map((book) => (
+      <Col key={book.id} md={3}>
         <BookCard
-          key={book.id}
           book={book}
           onBookClick={(newSelectedBook) => {
             setSelectedBook(newSelectedBook);
           }}
         />
-      ))}
-    </div>
+      </Col>
+    ))}
+  </>
   );
 };
 
@@ -101,3 +103,4 @@ export const LoginView = () => {
     </Form>
   );
 };
+

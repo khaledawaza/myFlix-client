@@ -1,8 +1,9 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import { BookCard } from "../book-card/book-card";
 import { BookView } from "../book-view/book-view";
 import { LoginView } from "../login-view/login-view";
+import { SignupView } from "../signup-view/signup-view";
+import Row from "react-bootstrap/Row";
 
 export const MainView = () => {
   const [books, setBooks] = useState([]);
@@ -43,16 +44,17 @@ export const MainView = () => {
           <div>The list is empty!</div>
         ) : (
           <>
-            {books.map((book) => (
+          {books.map((book) => (
+            <Col className="mb-5" key={book.id} md={3}>
               <BookCard
-                key={book.id}
                 book={book}
                 onBookClick={(newSelectedBook) => {
                   setSelectedBook(newSelectedBook);
                 }}
               />
-            ))}
-          </>
+            </Col>
+          ))}
+        </>
         )}
       </Row>
   );
@@ -137,3 +139,9 @@ const handleSubmit = (event) => {
     }
   });
 };
+
+return (
+  <Container style={{border: "1px solid red"}}>
+    <MainView />
+  </Container>
+);

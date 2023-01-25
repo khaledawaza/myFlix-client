@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import Col from 'react-bootstrap/Col';
 
 export class MovieView extends React.Component {
 
@@ -43,3 +44,17 @@ MovieView.propTypes = {
   }).isRequired,
   onBackClick: PropTypes.func.isRequired,
 };
+
+<Col md={8} style={{ border: "1px solid black" }}>
+         <BookView
+           style={{ border: "1px solid green" }}
+           book={selectedBook}
+           onBackClick={() => setSelectedBook(null)}
+         />
+       </Col>
+
+ return (
+  <Row className="justify-content-md-center">
+    …
+  </Row>
+);

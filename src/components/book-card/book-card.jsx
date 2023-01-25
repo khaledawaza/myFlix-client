@@ -2,9 +2,11 @@ import React from 'react';
 import PropTypes from "prop-types";
 import { Button, Card } from "react-bootstrap";
 
+import "./book-card.scss";
+
 export const BookCard = ({ book, onBookClick }) => {
-  return (
-    <Card>
+ return (
+   <Card className="h-100">
       <Card.Img variant="top" src={book.image} />
       <Card.Body>
         <Card.Title>{book.title}</Card.Title>
