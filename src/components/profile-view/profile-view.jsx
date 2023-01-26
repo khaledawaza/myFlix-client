@@ -1,71 +1,46 @@
-import { Container } from "react-bootstrap";
-
-<Container>
-    <Row>
-        <Col> 1 of 2 </Col>
-        <Col> 2 of 2 </Col>
-    </Row>
-    <Row>
-     <Col> 1 of 3 </Col>
-     <Col> 2 of 3 </Col>
-     <Col> 3 of 3 </Col>
-    </Row>
-</Container>;
-
-
+import React, { useState } from 'react';
+import { Button, Form, Row, Col, CardGroup, Card, Form } from 'react-bootstrap';
+import { BookCard } from '../book-card/book-card';
+import moment from 'moment';
 import { useState } from 'react';
-import { Navigate, useNavigate } from 'react-router';
-import { Card, Col } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import CardGroup from 'react-bootstrap/CardGroup';
 
-export const SignupView = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState('');
-  const [birthday, setBirthday] = useState('');
-  const navigate = useNavigate();
+export const ProfileView = ({ user, movies }) => {
+  const [username, setUsername] = useState(user.Username);
+  const [password, setPassword] = useState(user.Password);
+  const [email, setEmail] = useState(user.Email);
+  const [birthday, setBirthday] = useState(user.Birthday);
+
+  console.log(movies);
+  let favoriteMoviesList = movies.filter((m) =>
+    user.FavoriteMovies.includes(m.id)
+  );
+  console.log(favoriteMoviesList);
+
+  let userBirthday = moment.utc(user.Birthday).format('MM/DD/YYYY');
+  console.log(user);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    const data = {
-      Username: username,
-      Password: password,
-      Email: email,
-      Birthday: birthday,
-    };
-
-    fetch('https://movie-api-zhikiki.herokuapp.com/users', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          alert('Signup successful');
-          window.location.reload();
-          console.log(`Signup response: ${response}`);
-
-          // need to send user to login viev
-        } else {
-          alert('Signup failed');
-        }
-      })
-      .catch((e) => console.log(e));
-    navigate('/login');
+    console.log('Submitt successful');
   };
-
   return (
-    <Container>
-      <EntranceGreating />
-      <Row>
+    <>
+      <Row className='d-flex flex-column flex-lg-row ms-2 text-lg-center mt-lg-3 mt-3'>
         <Col>
+          <span>Username: </span>
+          <span className='fw-bolder'>{user.Username}</span>
+        </Col>
+        <Col>
+          <span>Email: </span>
+          <span className='fw-bolder'>{user.Email}</span>
+        </Col>
+        <Col>
+          <span>Birthday: </span>
+          <span className='fw-bolder'>{userBirthday}</span>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={5}>
           <CardGroup>
             <Card className='border-0'>
               <Card.Body>
@@ -86,7 +61,7 @@ export const SignupView = () => {
                       We'll never share your email with anyone else.
                     </Form.Text>
                   </Form.Group>
-                  <Form.Group controlId='forPassword' className='mt-3'>
+                  <Form.Group controlId='forPassword' className='mt-2'>
                     <Form.Label>Password:</Form.Label>
                     <Form.Control
                       type='password'
@@ -98,7 +73,7 @@ export const SignupView = () => {
                       placeholder='Create a password'
                     />
                   </Form.Group>
-                  <Form.Group controlId='forEmail' className='mt-3'>
+                  <Form.Group controlId='forEmail' className='mt-2'>
                     <Form.Label>Email:</Form.Label>
                     <Form.Control
                       type='email'
@@ -108,7 +83,7 @@ export const SignupView = () => {
                       placeholder='Enter email'
                     />
                   </Form.Group>
-                  <Form.Group controlId='forBirthday' className='mt-3'>
+                  <Form.Group controlId='forBirthday' className='mt-2'>
                     <Form.Label>Birthday:</Form.Label>
                     <Form.Control
                       type='date'
@@ -129,6 +104,28 @@ export const SignupView = () => {
           </CardGroup>
         </Col>
       </Row>
-    </Container>
+      <Row>
+        {favoriteMoviesList.length === 0 ? (
+          <Col>The list of favorite movies is empty</Col>
+        ) : (
+          <>
+            <div className='text-start h2 mb-4'>List of favorite movies</div>
+            {favoriteMoviesList.map((movie) => (
+              <Col className='mb-5' key={movie.id} xs={12} sm={6} md={4} lg={3}>
+                <BookCard
+                  movieData={movie}
+                  user={user}
+                  updateUserOnFav={(user) => {
+                    console.log('Update User called', user);
+                    setUser(user);
+                    localStorage.setItem('user', JSON.stringify(user));
+                  }}
+                />
+              </Col>
+            ))}
+          </>
+        )}
+      </Row>
+    </>
   );
 };
