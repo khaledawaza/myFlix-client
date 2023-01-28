@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { BookCard } from "../book-card/book-card";
-import { BookView } from "../book-view/book-view";
+import { BookCard } from "../movie-card/movie-card";
+import { BookView } from "../movie-view/movie-view";
 import { LoginView } from "../login-view/login-view";
-import { SignupView } from "../signup-view/signup-view";
-import { Navigation } from "react-router-dom";
 import Row from "react-bootstrap/Row";
+import{ useState } from "react";
+
 
 export const MainView = () => {
   const [books, setBooks] = useState([]);
@@ -60,7 +60,6 @@ export const MainView = () => {
       </Row>
   );
 };
-import{ useState } from "react";
 
 export const SignupView = () => {
   const [username, setUsername] = useState("");
@@ -115,34 +114,6 @@ export const SignupView = () => {
     </form>
   );
 };
-const handleSubmit = (event) => {
-  event.preventDefault();
 
-  const data = {
-    Username: username,
-    Password: password,
-    Email: email,
-    Birthday: birthday
-  };
 
-  fetch("SIGNUP_URL", {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  }).then((response) => {
-    if (response.ok) {
-      alert("Signup successful");
-      window.location.reload();
-    } else {
-      alert("Signup failed");
-    }
-  });
-};
 
-return (
-  <Container style={{border: "1px solid red"}}>
-    <MainView />
-  </Container>
-);

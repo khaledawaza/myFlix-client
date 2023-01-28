@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form, Row, Col, CardGroup, Card, Form } from 'react-bootstrap';
-import { BookCard } from '../book-card/book-card';
+import { BookCard } from '../movie-card/movie-card';
 import moment from 'moment';
 import { useState } from 'react';
 
