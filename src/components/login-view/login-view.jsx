@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+// imported form and button from react bootstrap
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 
 import './login-view.css';
 
 export function LoginView(props) {
+  // called useState() with empty string, the intial value of login variable
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
+  // returns an array of paired values, destructured above
 
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(username, password);
+    /* Send a request to the server for authentication */
+    /* then call props.onLoggedIn(username) */
     props.onLoggedIn(username);
   };
 
