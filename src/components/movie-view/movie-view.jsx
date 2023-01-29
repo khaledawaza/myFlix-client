@@ -1,31 +1,35 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, CardGroup, Container, Col, Row, Form } from 'react-bootstrap';
-
-import "./movie-view.css";
+import { Button, Container, Col, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import './movie-view.css';
 
 export class MovieView extends React.Component {
-
   keypressCallback(event) {
     console.log(event.key);
   }
 
   componentDidMount() {
-    document.addEventListener('keypress', this.keypressCallback)
+    document.addEventListener('keypress', this.keypressCallback);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('keypress', this.keypressCallback)
+    document.removeEventListener('keypress', this.keypressCallback);
   }
 
   render() {
-    const { movie, onBackClick } = this.props;
+    const { movie, onBackClick, removeMovie, addMovie, user } = this.props;
 
+      console.log(movie);
     return (
       <Container fluid className="movieViewContainer">
         <Row>
           <Col>
-            <img className="movie-poster" src={movie.Image} />
+            <img
+              className="movie-poster"
+              crossOrigin="anonymous"
+              src={movie.Image}
+            />
           </Col>
         </Row>
         <Row>
@@ -55,28 +59,41 @@ export class MovieView extends React.Component {
         <Row>
           <Col>
             <div className="movie-director">
-              <span className="label">Director: </span>
-              <span className="value">{movie.Director.Name}</span>
+              <Link to={`/directors/${movie.Director.Name}`}>
+                <Button variant="link">Director</Button>
+              </Link>
             </div>
-            <div>{' Bio: ' + movie.Director.Bio}</div>
+            <div>{`Bio: ${movie.Director.Bio}`}</div>
           </Col>
         </Row>
         <Row>
           <Col>
             <div className="movie-genre">
-              <span className="label">Genre: </span>
-              <span className="value">{movie.Genre.Name} </span>
+              <Link to={`/genres/${movie.Genre.Name}`}>
+                <Button variant="link">Genre: {movie.Genre.Name}</Button>
+              </Link>
             </div>
-            <div>{' Description: ' + movie.Genre.Description}</div>
+            <div>{`Description: ${movie.Genre.Description}`}</div>
             <Button
               onClick={() => {
-                onBackClick(null);
+                onBackClick();
               }}
             >
               Back
             </Button>
-            <Button className="ml-2 my-2">Add to Favorites</Button>
-            <Button className="ml-2">Remove from Favorites</Button>
+            {!user.favoriteMovies.includes(movie._id) && 
+              <Button onClick={() => addMovie(movie._id)} className="ml-2 my-2">
+                Add to Favorites.
+              </Button>
+            }
+            {user.favoriteMovies.includes(movie._id) && 
+              <Button
+                onClick={() => removeMovie(movie._id)}
+                className="ml-2 my-2"
+              >
+                Remove from Favorites.
+              </Button>
+            }
           </Col>
         </Row>
       </Container>
@@ -89,18 +106,18 @@ MovieView.propTypes = {
     Title: PropTypes.string.isRequired,
     Genre: PropTypes.shape({
       Name: PropTypes.string.isRequired,
-      Description: PropTypes.string
+      Description: PropTypes.string,
     }),
     Summary: PropTypes.string.isRequired,
     Director: PropTypes.shape({
       Name: PropTypes.string.isRequired,
       Bio: PropTypes.string.isRequired,
-      Image: PropTypes.string.isRequired
+      Image: PropTypes.string.isRequired,
     }),
     Actors: PropTypes.array.isRequired,
     Image: PropTypes.string.isRequired,
     Year: PropTypes.number.isRequired,
-    Featured: PropTypes.bool
+    Featured: PropTypes.bool,
   }).isRequired,
-  onBackClick: PropTypes.func.isRequired
+  onBackClick: PropTypes.func.isRequired,
 };
