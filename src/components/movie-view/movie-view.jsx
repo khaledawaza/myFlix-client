@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card, CardGroup, Container, Col, Row, Form } from 'react-bootstrap';
 
-import "./movie-view.css";
+import './movie-view.css';
 
 export class MovieView extends React.Component {
 
