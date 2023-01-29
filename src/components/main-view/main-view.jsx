@@ -4,7 +4,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import { Container, Nav, Navbar } from 'react-bootstrap';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import './main-view.scss';
+import './main-view.css';
 import { RegistrationView } from '../registration-view/registration-view';
 import { LoginView } from '../login-view/login-view';
 import { MovieCard } from '../movie-card/movie-card';
