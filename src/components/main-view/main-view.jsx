@@ -1,31 +1,14 @@
 import React from  'react';
-
-// Importing axios
 import axios from 'axios';
-
 import Row from 'react-bootstrap/Row';
-
 import Col from 'react-bootstrap/Col';
-
 import { Container, Nav, Navbar } from 'react-bootstrap';
-
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
 import './main-view.scss';
-
-// importing RegistrationView
 import { RegistrationView } from '../registration-view/registration-view';
-
-// importing LoginView component
 import { LoginView } from '../login-view/login-view';
-
-// importing MovieCard component
 import { MovieCard } from '../movie-card/movie-card';
-
-// importing MovieView component
 import { MovieView } from '../movie-view/movie-view';
-
-// Making and exposing the MainView component in order to be usable in other files using the React.Component template
 export class MainView extends React.Component {
 
   constructor(){
@@ -49,8 +32,6 @@ export class MainView extends React.Component {
       console.log(error);
     });
   }
-  // creating setSelectedMovie component
-  /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
   setSelectedMovie(movie) {
     this.setState({
       selectedMovie: movie
@@ -63,8 +44,6 @@ export class MainView extends React.Component {
       register,
     });
   }
-
-  /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
   onLoggedIn(user){
     this.setState({
       user
