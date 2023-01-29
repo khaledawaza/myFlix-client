@@ -1,119 +1,122 @@
-import { useState, useEffect } from "react";
-import { BookCard } from "../movie-card/movie-card";
-import { BookView } from "../movie-view/movie-view";
-import { LoginView } from "../login-view/login-view";
-import Row from "react-bootstrap/Row";
-import{ useState } from "react";
+import React from  'react';
 
+// Importing axios
+import axios from 'axios';
 
-export const MainView = () => {
-  const [books, setBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null);
-  const [user, setUser] = useState(null);
+import Row from 'react-bootstrap/Row';
 
-  useEffect(() => {
-    fetch("https://openlibrary.org/search.json?q=star+wars")
-      .then((response) => response.json())
-      .then((data) => {
-        const booksFromApi = data.docs.map((doc) => {
-          return {
-            id: doc.key,
-            title: doc.title,
-            image: `https://covers.openlibrary.org/b/id/${doc.cover_i}-L.jpg`,
-            author: doc.author_name?.[0]
-          };
-        });
+import Col from 'react-bootstrap/Col';
 
-        setBooks(booksFromApi);
+import { Container, Nav, Navbar } from 'react-bootstrap';
+
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
+import './main-view.scss';
+
+// importing RegistrationView
+import { RegistrationView } from '../registration-view/registration-view';
+
+// importing LoginView component
+import { LoginView } from '../login-view/login-view';
+
+// importing MovieCard component
+import { MovieCard } from '../movie-card/movie-card';
+
+// importing MovieView component
+import { MovieView } from '../movie-view/movie-view';
+
+// Making and exposing the MainView component in order to be usable in other files using the React.Component template
+export class MainView extends React.Component {
+
+  constructor(){
+    super();
+    // initial state is set to null
+    this.state = {
+      movies: [],
+      selectedMovie: null,
+      user: null
+    };
+  }
+  // fetching list of movies from t-flix API using axios's get method
+  componentDidMount(){
+    axios.get('https://t-flix.herokuapp.com/movies')
+    .then(response => {
+      this.setState({
+        movies: response.data
       });
-  }, []);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+  // creating setSelectedMovie component
+  /*When a movie is clicked, this function is invoked and updates the state of the `selectedMovie` *property to that movie*/
+  setSelectedMovie(movie) {
+    this.setState({
+      selectedMovie: movie
+    });
+  }
 
-  return (
-      <Row> 
-        {!user ? (
-          <>
-            <LoginView onLoggedIn={(user) => setUser(user)} />
-            or
-            <SignupView />
-          </>
-        ) : selectedBook ? (
-          <BookView 
-            book={selectedBook} 
-            onBackClick={() => setSelectedBook(null)} 
-          />
-        ) : books.length === 0 ? (
-          <div>The list is empty!</div>
-        ) : (
-          <>
-          {books.map((book) => (
-            <Col className="mb-5" key={book.id} md={3}>
-              <BookCard
-                book={book}
-                onBookClick={(newSelectedBook) => {
-                  setSelectedBook(newSelectedBook);
-                }}
-              />
-            </Col>
-          ))}
-        </>
-        )}
-      </Row>
+  // when a user successfully registers
+  onRegistration(register) {
+    this.setState({
+      register,
+    });
+  }
+
+  /* When a user successfully logs in, this function updates the `user` property in state to that *particular user*/
+  onLoggedIn(user){
+    this.setState({
+      user
+    });
+  }
+  // Rendering the visual representation of the component
+  render () {
+    const { movies, selectedMovie, user, register } = this.state;
+
+    //if user is not registered the registration view appears
+    if(!register) return (<RegistrationView onRegistration={(register) => this.onRegistration(register)} />);
+
+    /* If there is no user, the LoginView is rendered. If there is a user logged in, the user details are *passed as a prop to the LoginView*/
+    if(!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+
+    // before the movies have been laoded
+    if (movies.length === 0) return <div className="main-view" />;
+
+    return (
+      <div className="main-view">
+        <Navbar bg="light" variant="light">
+          <Container>
+            <Navbar.Brand href="#home">T-Flix App</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#account">My list</Nav.Link>
+            <NavDropdown title="Movies" id="collasible-nav-dropdown">
+              <NavDropdown.Item href="#action/3.1">Genre</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                Director
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Release year</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+          </Container>
+        </Navbar>
+        <Row className="justify-content-md-center">
+          {selectedMovie
+            ? (
+              <Col md={8}>
+                <MovieView movie={selectedMovie} onBackClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+              </Col>
+            )
+            : movies.map(movie => (
+              <Col md={3}>
+                <MovieCard key={movie._id} movie={movie} onMovieClick={newSelectedMovie => { this.setSelectedMovie(newSelectedMovie); }}/>
+              </Col>
+            ))
+          }
+        </Row>
+      </div>
   );
-};
-
-export const SignupView = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
-
-  const handleSubmit = (event) => {};
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          minLength="3"
-        />
-      </label>
-      <label>
-        Password:
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </label>
-      <label>
-        Email:
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </label>
-
-      <label>
-        Birthday:
-        <input
-          type="date"
-          value={birthday}
-          onChange={(e) => setBirthday(e.target.value)}
-          required
-        />
-      </label>
-      
-      <button type="submit">Submit</button>
-    </form>
-  );
-};
-
-
+  }
+}
 
