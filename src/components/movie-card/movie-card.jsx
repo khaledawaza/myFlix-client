@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+//imported react bootstrap component
 import { Button, Card, CardGroup, Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
@@ -36,6 +37,7 @@ export class MovieCard extends React.Component {
   }
 }
 
+/* setting the static proptypes to an obj contains special values provided by proptypes */
 MovieCard.propTypes = {
   movie: PropTypes.shape({
     Title: PropTypes.string.isRequired,
