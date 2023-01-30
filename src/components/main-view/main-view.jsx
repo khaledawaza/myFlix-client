@@ -82,7 +82,7 @@ export class MainView extends React.Component {
   addMovie(movieId) {
     axios({
       method: 'post',
-      url: `https://movie-api.fly.dev/users/${this.state.user.userID}/movies/${movieId}`,
+      url: `("https://openlibrary.org/search.json?q=star+wars")`,
 
       headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
     })
