@@ -23,7 +23,8 @@ export const LoginView = ({ onLoggedIn }) => {
       Password: password,
     };
 
-    fetch('https://movie-api-khaledawaza.herokuapp.com/login', {
+    fetch('https://myflixapi-50jx.onrender.com/login', {
+
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

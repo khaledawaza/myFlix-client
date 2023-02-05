@@ -11,7 +11,7 @@ export const FavoriteIcon = ({ user, movie, updateUserOnFav }) => {
   const toggleFavorite = () => {
     if (!token) return;
 
-    const url = `https://movie-api-zhikiki.herokuapp.com/users/${user.Username}/movies/${movie.id}`;
+    const url = `https://movie-api-khaledawaza.herokuapp.com/users/${user.Username}/movies/${movie.id}`;
 
     let requestOptions = {
       method: '',
