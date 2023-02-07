@@ -30,8 +30,10 @@ export const MainView = () => {
     if (!token) {
       return;
     }
+    
 
-    fetch('https://movie-api-zhikiki.herokuapp.com/movies', {
+
+    fetch('https://myflixapi-50jx.onrender.com/movies',  {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())

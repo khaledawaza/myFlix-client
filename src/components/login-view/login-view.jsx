@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { useState } from 'react';
 import {
   Button,
@@ -23,28 +24,30 @@ export const LoginView = ({ onLoggedIn }) => {
       Password: password,
     };
 
-    fetch('https://myflixapi-50jx.onrender.com/login', {
+    axios.post('http://localhost:8080/login', data).then(res => console.log(res))
 
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Login response: ', data);
-        if (data.user) {
-          localStorage.setItem('user', JSON.stringify(data.user));
-          localStorage.setItem('token', data.token);
-          onLoggedIn(data.user, data.token);
-        } else {
-          alert('No such user');
-        }
-      })
-      .catch((e) => {
-        alert('Something went wrong');
-      });
+     fetch('https://myflixapi-50jx.onrender.com/login', {
+       method: "POST",
+       body: JSON.stringify(data),
+       headers: {
+         "Content-Type": "application/json",
+         "Access-Control-Allow-Origin": "*"
+       }
+     })
+     .then((response) => response.json())
+     .then((data) => {
+       console.log("Login response: ", data);
+       if (data.user) {
+         localStorage.setItem("user", JSON.stringify(data.user));
+         localStorage.setItem("token", data.token);
+         onLoggedIn(data.user, data.token);
+       } else {
+         alert("No such user");
+       }
+     })
+     .catch((e) => {
+       alert("Something went wrong");
+     });
   };
   return (
     <Container>
