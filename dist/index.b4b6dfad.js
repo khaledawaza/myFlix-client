@@ -51302,7 +51302,7 @@ const UpdateView = ({ storedToken , storedUser  })=>{
     const [email, setEmail] = (0, _react.useState)(user.Email);
     const [birthday, setBirthday] = (0, _react.useState)(user.Birthday);
     const updateUser = (username)=>{
-        fetch(`https://movie-api-zhikiki.herokuapp.com/users/${username}`, {
+        fetch(`https://myflixapi-50jx.onrender.com/users/${username}`, {
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -55457,7 +55457,7 @@ var _reactBootstrap = require("react-bootstrap");
 const DeleteUser = ({ storedToken , storedUser  })=>{
     const handleDeregister = ()=>{
         const userWarning = confirm(`You are going to delete your account. All information will be lost and cannot be recovered. Are you sure?`);
-        userWarning === false ? alert("Great decision. Keep choosing your favorite movies") : fetch(`https://movie-api-zhikiki.herokuapp.com/users/${storedUser.Username}`, {
+        userWarning === false ? alert("Great decision. Keep choosing your favorite movies") : fetch(`https://myflixapi-50jx.onrender.com/users/${storedUser.Username}`, {
             method: "DELETE",
             headers: {
                 Authorization: `Bearer ${storedToken}`,
@@ -55482,17 +55482,17 @@ const DeleteUser = ({ storedToken , storedUser  })=>{
                 children: "Delete Account"
             }, void 0, false, {
                 fileName: "src/components/profile-view/delete-user.jsx",
-                lineNumber: 36,
+                lineNumber: 37,
                 columnNumber: 9
             }, undefined)
         }, void 0, false, {
             fileName: "src/components/profile-view/delete-user.jsx",
-            lineNumber: 35,
+            lineNumber: 36,
             columnNumber: 7
         }, undefined)
     }, void 0, false, {
         fileName: "src/components/profile-view/delete-user.jsx",
-        lineNumber: 34,
+        lineNumber: 35,
         columnNumber: 5
     }, undefined);
 };
