@@ -11,7 +11,7 @@ export const UpdateView = ({ storedToken, storedUser }) => {
   const [birthday, setBirthday] = useState(user.Birthday);
 
   const updateUser = (username) => {
-    fetch(`https://movie-api-zhikiki.herokuapp.com/users/${username}`, {
+    fetch(`https://myflixapi-50jx.onrender.com/users/${username}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())

@@ -9,8 +9,9 @@ export const DeleteUser = ({ storedToken, storedUser }) => {
     userWarning === false
       ? alert('Great decision. Keep choosing your favorite movies')
       : fetch(
-          `https://movie-api-zhikiki.herokuapp.com/users/${storedUser.Username}`,
+          `https://myflixapi-50jx.onrender.com/users/${storedUser.Username}`,
           {
+            
             method: 'DELETE',
             headers: {
               Authorization: `Bearer ${storedToken}`,
