@@ -46608,7 +46608,7 @@ const LoginView = ({ onLoggedIn  })=>{
             Password: password
         };
         (0, _axiosDefault.default).post("http://localhost:8080/login", data).then((res)=>console.log(res));
-        fetch("https://myflixapi-50jx.onrender.com/login", {
+        fetch("https://movie-api-m3ac.onrender.com/login", {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
