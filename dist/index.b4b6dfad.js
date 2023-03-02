@@ -46272,7 +46272,7 @@ const FavoriteIcon = ({ user , movie , updateUserOnFav  })=>{
     const alreadyFavorite = user.FavoriteMovies.find((favMovieId)=>favMovieId === movie.id);
     const toggleFavorite = ()=>{
         if (!token) return;
-        const url = `https://movie-api-khaledawaza.herokuapp.com/users/${user.Username}/movies/${movie.id}`;
+        const url = `https://myflixapi-50jx.onrender.co/users/${user.Username}/movies/${movie.id}`;
         let requestOptions = {
             method: "",
             headers: {
@@ -55559,6 +55559,6 @@ $RefreshReg$(_c, "DeleteUser");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-dev-runtime":"iTorj","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"irmnC":[function() {},{}]},["1xC6H","7a1Sg","d8Dch"], "d8Dch", "parcelRequire94c2")
+},{"react/jsx-dev-runtime":"iTorj","react-bootstrap":"3AD9A","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"km3Ru"}],"irmnC":[function() {},{}]},["1xC6H","7a1Sg","d8Dch"], "d8Dch", "parcelRequireaec4")
 
 //# sourceMappingURL=index.b4b6dfad.js.map

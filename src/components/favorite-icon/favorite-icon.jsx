@@ -11,7 +11,7 @@ export const FavoriteIcon = ({ user, movie, updateUserOnFav }) => {
   const toggleFavorite = () => {
     if (!token) return;
 
-    const url = `https://myflixapi-50jx.onrender.com/users/${user.Username}/movies/${movie.id}`;
+    const url = `https://myflixapi-50jx.onrender.co/users/${user.Username}/movies/${movie.id}`;
 
     let requestOptions = {
       method: '',
