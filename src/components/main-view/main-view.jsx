@@ -32,12 +32,14 @@ export const MainView = () => {
     }
     
 
-
-    fetch('https://myflixapi-50jx.onrender.com/movies',  {
+    alert("loding")
+    fetch('https://movie-api-m3ac.onrender.com/movies',  {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())
       .then((data) => {
+        alert("here")
+        alert(JSON.stringify(data))
         const moviesFromApi = data.map((doc) => {
           return {
             id: doc._id,
@@ -56,6 +58,8 @@ export const MainView = () => {
             image: doc.ImagePath,
           };
         });
+        alert(JSON.stringify(moviesFromApi))
+        console.log(moviesFromApi)
         setMovies(moviesFromApi);
       })
       .catch((error) => {
@@ -122,6 +126,11 @@ export const MainView = () => {
                     <Col>The list is empty!</Col>
                   ) : (
                     <Col>
+                    <div>
+                      {moviesFromApi}
+                      </div>
+                  
+                    
                       <MovieView
                         movies={movies}
                         user={user}
