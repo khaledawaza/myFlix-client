@@ -1,26 +1,19 @@
-import { useState, useEffect } from 'react';
-
-// Importing MovieCard component, so it can be used here
-import { MovieCard } from '../movie-card/movie-card';
-
-// Importing MovieView component
-import { MovieView } from '../movie-view/movie-view';
-
-import { LoginView } from '../login-view/login-view';
-import { SignupView } from '../signup-view/signup-view';
-import { NavigationBar } from '../navigation-bar/navigation-bar';
-
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import { ProfileView } from '../profile-view/profile-view';
+import { useState, useEffect } from "react";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import { NavigationBar } from "../navigation-bar/navigation-bar";
+import { MovieCard } from "../movie-card/movie-card";
+import { MovieView } from "../movie-view/movie-view";
+import { LoginView } from "../login-view/login-view";
+import { ProfileView } from "../profile-view/profile-view";
+import { SignupView } from "../signup-view/signup-view";
 
 export const MainView = () => {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const storedToken = localStorage.getItem('token');
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
   const [movies, setMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(storedUser ? storedUser : null);
@@ -30,16 +23,13 @@ export const MainView = () => {
     if (!token) {
       return;
     }
-    
 
-    alert("loding")
-    fetch('https://movie-api-m3ac.onrender.com/movies',  {
+    fetch("https://movie-api-m3ac.onrender.com/movies", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((response) => response.json())
       .then((data) => {
-        alert("here")
-        alert(JSON.stringify(data))
+        alert(JSON.stringify(data));
         const moviesFromApi = data.map((doc) => {
           return {
             id: doc._id,
@@ -58,15 +48,14 @@ export const MainView = () => {
             image: doc.ImagePath,
           };
         });
-        alert(JSON.stringify(moviesFromApi))
-        console.log(moviesFromApi)
+        //alert(JSON.stringify(moviesFromApi))
+        console.log(moviesFromApi);
         setMovies(moviesFromApi);
       })
       .catch((error) => {
         console.log(error);
       });
   }, [token]);
-
 
   return (
     <BrowserRouter>
@@ -78,15 +67,16 @@ export const MainView = () => {
           localStorage.clear();
         }}
       />
+
       <Container>
-        <Row className='justify-content-md-center'>
+        <Row className="justify-content-md-center">
           <Routes>
             <Route
-              path='/signup'
+              path="/signup"
               element={
                 <>
                   {user ? (
-                    <Navigate to='/' />
+                    <Navigate to="/" />
                   ) : (
                     <Col md={5}>
                       <SignupView />
@@ -97,11 +87,11 @@ export const MainView = () => {
             />
 
             <Route
-              path='/login'
+              path="/login"
               element={
                 <>
                   {user ? (
-                    <Navigate to='/' />
+                    <Navigate to="/" />
                   ) : (
                     <Col md={5}>
                       <LoginView
@@ -117,27 +107,24 @@ export const MainView = () => {
             />
 
             <Route
-              path='/movies/:movieId'
+              path="/movies/:movieId"
               element={
                 <>
                   {!user ? (
-                    <Navigate to='/login' replace />
+                    <Navigate to="/login" replace />
                   ) : movies.length === 0 ? (
                     <Col>The list is empty!</Col>
                   ) : (
                     <Col>
-                    <div>
-                      {moviesFromApi}
-                      </div>
-                  
-                    
+                      <div>Movies detail</div>
+
                       <MovieView
                         movies={movies}
                         user={user}
                         updateUserOnFav={(user) => {
-                          console.log('Update User called', user);
+                          console.log("Update User called", user);
                           setUser(user);
-                          localStorage.setItem('user', JSON.stringify(user));
+                          localStorage.setItem("user", JSON.stringify(user));
                         }}
                       />
                     </Col>
@@ -147,18 +134,18 @@ export const MainView = () => {
             />
 
             <Route
-              path='/'
+              path="/"
               element={
                 <>
                   {!user ? (
-                    <Navigate to='/login' replace />
+                    <Navigate to="/login" replace />
                   ) : movies.length === 0 ? (
-                    <div>The list is empty!</div>
+                    <div>List of movies is empty</div>
                   ) : (
                     <>
                       {movies.map((movie) => (
                         <Col
-                          className='mb-5'
+                          className="mb-5"
                           key={movie.id}
                           xs={12}
                           sm={6}
@@ -169,10 +156,10 @@ export const MainView = () => {
                             movieData={movie}
                             user={user}
                             updateUserOnFav={(user) => {
-                              console.log('Update User called', user);
+                              console.log("Update User called", user);
                               setUser(user);
                               localStorage.setItem(
-                                'user',
+                                "user",
                                 JSON.stringify(user)
                               );
                             }}
@@ -180,16 +167,16 @@ export const MainView = () => {
                         </Col>
                       ))}
                       <Row>
-                        <Col className='text-end mt-2'>
+                        <Col className="text-end mt-2">
                           <Button
                             onClick={() => {
                               setUser(null);
                               setToken(null);
                               localStorage.clear();
                             }}
-                            variant='primary'
-                            size='lg'
-                            className='mb-5'
+                            variant="primary"
+                            size="lg"
+                            className="mb-5"
                           >
                             Sign out
                           </Button>
@@ -203,11 +190,11 @@ export const MainView = () => {
 
             {/* User Profile view */}
             <Route
-              path='/users/:username'
+              path="/users/:username"
               element={
                 <>
                   {!user ? (
-                    <Navigate to='/login' replace />
+                    <Navigate to="/login" replace />
                   ) : movies.length === 0 ? (
                     <Col>The list is empty!</Col>
                   ) : (
