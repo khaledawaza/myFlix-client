@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import { NavigationBar } from "../navigation-bar/navigation-bar";
 import { MovieCard } from "../movie-card/movie-card";
@@ -29,8 +29,8 @@ export const MainView = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        alert(JSON.stringify(data));
         const moviesFromApi = data.map((doc) => {
+          console.log("data: ", data);
           return {
             id: doc._id,
             title: doc.Title,
@@ -76,7 +76,7 @@ export const MainView = () => {
               element={
                 <>
                   {user ? (
-                    <Navigate to="/" />
+                    <h3>Test</h3>
                   ) : (
                     <Col md={5}>
                       <SignupView />
@@ -91,7 +91,7 @@ export const MainView = () => {
               element={
                 <>
                   {user ? (
-                    <Navigate to="/" />
+                    <h3>test</h3>
                   ) : (
                     <Col md={5}>
                       <LoginView
@@ -111,18 +111,16 @@ export const MainView = () => {
               element={
                 <>
                   {!user ? (
-                    <Navigate to="/login" replace />
+                    <Navigate to="/" />
                   ) : movies.length === 0 ? (
                     <Col>The list is empty!</Col>
                   ) : (
                     <Col>
-                      <div>Movies detail</div>
-
                       <MovieView
                         movies={movies}
+                        movie={selectedMovie}
                         user={user}
                         updateUserOnFav={(user) => {
-                          console.log("Update User called", user);
                           setUser(user);
                           localStorage.setItem("user", JSON.stringify(user));
                         }}
@@ -138,7 +136,7 @@ export const MainView = () => {
               element={
                 <>
                   {!user ? (
-                    <Navigate to="/login" replace />
+                    <h3>test</h3>
                   ) : movies.length === 0 ? (
                     <div>List of movies is empty</div>
                   ) : (
@@ -153,16 +151,8 @@ export const MainView = () => {
                           lg={3}
                         >
                           <MovieCard
-                            movieData={movie}
-                            user={user}
-                            updateUserOnFav={(user) => {
-                              console.log("Update User called", user);
-                              setUser(user);
-                              localStorage.setItem(
-                                "user",
-                                JSON.stringify(user)
-                              );
-                            }}
+                            handleClick={() => console.log("movie: ", movie)}
+                            movie={movie}
                           />
                         </Col>
                       ))}
@@ -194,7 +184,7 @@ export const MainView = () => {
               element={
                 <>
                   {!user ? (
-                    <Navigate to="/login" replace />
+                    <h3>test</h3>
                   ) : movies.length === 0 ? (
                     <Col>The list is empty!</Col>
                   ) : (
