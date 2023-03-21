@@ -1,8 +1,8 @@
-import { Link } from 'react-router-dom';
-import React from 'react';
+import { Link } from "react-router-dom";
+import React from "react";
 
 export const FavoriteIcon = ({ user, movie, updateUserOnFav }) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
 
   const alreadyFavorite = user.FavoriteMovies.find(
     (favMovieId) => favMovieId === movie.id
@@ -14,25 +14,25 @@ export const FavoriteIcon = ({ user, movie, updateUserOnFav }) => {
     const url = `https://myflixapi-50jx.onrender.co/users/${user.Username}/movies/${movie.id}`;
 
     let requestOptions = {
-      method: '',
+      method: "",
       headers: {
         Authorization: `Bearer ${token}`,
       },
     };
 
-    let resultAlert = '';
+    let resultAlert = "";
     let iconChange;
 
     if (alreadyFavorite) {
-      requestOptions.method = 'DELETE';
+      requestOptions.method = "DELETE";
       resultAlert = `${movie.title} is deleted from the list of favorites`;
       iconChange = () =>
-        document.querySelector('svg').classList.remove('favorite-movie');
+        document.querySelector("svg").classList.remove("favorite-movie");
     } else {
-      requestOptions.method = 'POST';
+      requestOptions.method = "POST";
       resultAlert = `${movie.title} is added to the list of favorites`;
       iconChange = () =>
-        document.querySelector('svg').classList.add('favorite-movie');
+        document.querySelector("svg").classList.add("favorite-movie");
     }
 
     fetch(url, requestOptions)
@@ -42,20 +42,24 @@ export const FavoriteIcon = ({ user, movie, updateUserOnFav }) => {
         alert(`${resultAlert}`);
         // console.log(updateUserOnFav);
         updateUserOnFav(data);
-        document.querySelector('svg').classList.add('favorite-movie');
+        document.querySelector("svg").classList.add("favorite-movie");
       })
       .catch((e) => {
-        alert('Something went wrong');
+        alert("Something went wrong");
       });
   };
 
   return (
     <Link
       onClick={() => toggleFavorite()}
-      className='favorite-icon'
-      id='favMovieButton'
+      className="favorite-icon"
+      id="favMovieButton"
     >
-      {alreadyFavorite ? <FaHeart className='favorite-movie' /> : <FaHeart />}
+      {alreadyFavorite ? (
+        <i className="favorite-movie fa fa-heart" />
+      ) : (
+        <i class="fa fa-heart-o" />
+      )}
     </Link>
   );
 };

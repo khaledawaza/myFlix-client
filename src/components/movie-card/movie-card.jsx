@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
 import { Card } from "react-bootstrap";
-import { MovieCard } from "../movie-card/movie-card";
 
 // MovieView receives property from the MainView - movies
 export const MovieCard = ({ movie }) => {
