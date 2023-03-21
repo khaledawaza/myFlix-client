@@ -1,13 +1,11 @@
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import "./Movie-view.css";
 import PropTypes from "prop-types";
 import { Button, Col, Row } from "react-bootstrap";
 import { FavoriteIcon } from "../favorite-icon/favorite-icon";
 
 export const MovieView = ({ movies, user, updateUserOnFav }) => {
   const { movieId } = useParams();
-  console.log("MovieView prop", movieId);
   const movie = movies.find((m) => m.id === movieId);
 
   let similarMovies = movies.filter((filteredMovie) => {
