@@ -136,7 +136,7 @@ export const MainView = () => {
               element={
                 <>
                   {!user ? (
-                    
+                    <h3></h3>
                   ) : movies.length === 0 ? (
                     <div>List of movies is empty</div>
                   ) : (
