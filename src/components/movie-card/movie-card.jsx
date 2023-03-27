@@ -6,18 +6,22 @@ import { Card } from "react-bootstrap";
 export const MovieCard = ({ movie }) => {
   return (
     <Card>
-      <div>
-        <img className="w-100" src={movie.image} crossOrigin="anonymous" />
-      </div>
-      <div>
-        <span>Title: </span>
-        <span>{movie.title}</span>
-      </div>
-      <div>
-        <span>Director: </span>
-        <span>{movie.director.name}</span>
-      </div>
-      <Link to={`/movies/${movie.id}`}>More</Link>
+      <Card.Img src={movie.image} />
+      <Card.Body>
+        <Card.Title>{movie.title}</Card.Title>
+        <Card.Text>
+          <span>Director: </span>
+          <span>{movie.director.name}</span>
+        </Card.Text>
+      </Card.Body>
+      <Card.Footer>
+        <Link
+          to={`/movies/${movie.id}`}
+          className="btn btn-sm btn-outline-primary"
+        >
+          More
+        </Link>
+      </Card.Footer>
     </Card>
   );
 };

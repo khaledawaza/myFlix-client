@@ -15,9 +15,24 @@ export const MainView = () => {
   const storedUser = JSON.parse(localStorage.getItem("user"));
   const storedToken = localStorage.getItem("token");
   const [movies, setMovies] = useState([]);
+  const [filteredMovies, setFilteredMovies] = useState(movies);
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [user, setUser] = useState(storedUser ? storedUser : null);
   const [token, setToken] = useState(storedToken ? storedToken : null);
+
+  function handleSearch(event) {
+    const searchQuery = event.target.value.toLocaleLowerCase();
+    if (searchQuery === "") {
+      setFilteredMovies(movies);
+    } else {
+      const searchResult = movies.filter(
+        (movie) =>
+          movie.title.toLowerCase().includes(searchQuery) ||
+          movie.director.name.toLowerCase().includes(searchQuery)
+      );
+      setFilteredMovies(searchResult);
+    }
+  }
 
   useEffect(() => {
     if (!token) {
@@ -51,6 +66,7 @@ export const MainView = () => {
         //alert(JSON.stringify(moviesFromApi))
         console.log(moviesFromApi);
         setMovies(moviesFromApi);
+        setFilteredMovies(moviesFromApi);
       })
       .catch((error) => {
         console.log(error);
@@ -61,6 +77,7 @@ export const MainView = () => {
     <BrowserRouter>
       <NavigationBar
         user={user}
+        handleSearch={handleSearch}
         onLoggedOut={() => {
           setUser(null);
           setToken(null);
@@ -89,20 +106,14 @@ export const MainView = () => {
             <Route
               path="/login"
               element={
-                <>
-                  {user ? (
-                    <h3>test</h3>
-                  ) : (
-                    <Col md={5}>
-                      <LoginView
-                        onLoggedIn={(user, token) => {
-                          setUser(user);
-                          setToken(token);
-                        }}
-                      />
-                    </Col>
-                  )}
-                </>
+                <Col md={5}>
+                  <LoginView
+                    onLoggedIn={(user, token) => {
+                      setUser(user);
+                      setToken(token);
+                    }}
+                  />
+                </Col>
               }
             />
 
@@ -136,24 +147,15 @@ export const MainView = () => {
               element={
                 <>
                   {!user ? (
-                    <h3></h3>
-                  ) : movies.length === 0 ? (
-                    <div>List of movies is empty</div>
+                    <Navigate to="/login" />
                   ) : (
                     <>
-                      {movies.map((movie) => (
+                      {filteredMovies.map((movie) => (
                         <Col
-                          className="mb-5"
+                          className="mb-5 col-12 col-md-6 col-lg-4 col-xl-3"
                           key={movie.id}
-                          xs={12}
-                          sm={6}
-                          md={4}
-                          lg={3}
                         >
-                          <MovieCard
-                            handleClick={() => console.log("movie: ", movie)}
-                            movie={movie}
-                          />
+                          <MovieCard movie={movie} />
                         </Col>
                       ))}
                       <Row>
@@ -184,9 +186,7 @@ export const MainView = () => {
               element={
                 <>
                   {!user ? (
-                    <h3>test</h3>
-                  ) : movies.length === 0 ? (
-                    <Col>The list is empty!</Col>
+                    <Navigate to="/login" />
                   ) : (
                     <Col>
                       <ProfileView movies={movies} />
