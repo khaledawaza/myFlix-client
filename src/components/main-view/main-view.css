@@ -1,0 +1,8 @@
+.page-header {
+    background-color: #f5a9b8 6e;
+    display: flex;
+    flex-direction: row;
+    height: 100px;
+    position: fixed;
+    width: 100%;
+}
